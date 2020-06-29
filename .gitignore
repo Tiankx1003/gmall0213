@@ -1,2 +1,17 @@
 # Project exclude paths
 /target/
+.idea
+.idea/$CACHE_FILE$
+.idea/.gitignore
+.idea/codeStyles/
+.idea/compiler.xml
+.idea/deployment.xml
+.idea/dictionaries
+.idea/encodings.xml
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/sbt.xml
+.idea/vcs.xml
+gmall0213.iml
+src/main/resources/
+src/test/
