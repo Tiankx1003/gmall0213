@@ -89,10 +89,9 @@ public class JsonArrayToStructArray extends GenericUDF {
         //              'item_type:string',
         //              'ts:bigint')
         // array(struct(..), struct(....))
-        List<List<Object>> result = new ArrayList<>();
 
         if (arguments[0].get() == null) {
-            return result;
+            return null;
         }
 
         // 1.获取传入的json数组
@@ -102,6 +101,7 @@ public class JsonArrayToStructArray extends GenericUDF {
         // 2. 解析数组中的数据
         // 2.1 最终的数组
 
+        List<List<Object>> result = new ArrayList<>();
         // 2.2 解析出来需要的每个结构体
         for(int i = 0; i < jsonArray.length(); i++){
             List<Object> struct = new ArrayList<>();
