@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -78,17 +77,6 @@ public class JsonArrayToStructArray extends GenericUDF {
      */
     @Override
     public Object evaluate(DeferredObject[] arguments) throws HiveException {
-        // json_array_to_struct_array(
-        //               get_json_object(line,'$.actions'),
-        //              'action_id',
-        //              'item',
-        //              'item_type',
-        //              'ts',
-        //              'action_id:string',
-        //              'item:string',
-        //              'item_type:string',
-        //              'ts:bigint')
-        // array(struct(..), struct(....))
 
         if (arguments[0].get() == null) {
             return null;
@@ -108,19 +96,38 @@ public class JsonArrayToStructArray extends GenericUDF {
             result.add(struct);
 
             JSONObject obj = jsonArray.getJSONObject(i);
-            Iterator<String> keys = obj.keys(); // json对象中的所有的key
-            while (keys.hasNext()) {
-                /*
-                {
+
+            // 表示结构体应该有多个少个字段
+            for(int j = 1; j < (arguments.length - 1)/2 + 1; j++){
+                // 获取字段名
+                String name = arguments[j].get().toString();
+                if(obj.has(name)){
+                    struct.add(obj.get(name));
+                }else{
+                    struct.add(null);
+                }
+            }
+            /*
+            {
                     "displayType":"promotion",
                     "item":"3",
                     "item_type":"sku_id",
                     "order":1
-        }
-                 */
-                String key = keys.next();
-                struct.add(obj.get(key));
             }
+
+             json_array_to_struct_array(
+                       get_json_object(line,'$.actions'),
+                       'action_id',
+                      'item',
+                      'item_type',
+                      'ts',
+                      'action_id:string',
+                      'item:string',
+                      'item_type:string',
+                      'ts:bigint')
+        array(struct(..), struct(....))
+
+             */
 
         }
 
